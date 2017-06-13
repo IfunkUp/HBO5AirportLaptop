@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="databaseEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Proj_evenementen">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="naam" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="beschrijving" Type="text" Nullable="false" />
+          <Property Name="Max_inschrijvingen" Type="int" Nullable="false" />
+          <Property Name="Huidige_inschrijvingen" Type="int" Nullable="false" />
+          <Property Name="locatie" Type="int" Nullable="false" />
+          <Property Name="datum" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proj_gemeenten">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="naam" Type="nvarchar(max)" />
+          <Property Name="postcode" Type="int" />
+        </EntityType>
+        <EntityType Name="proj_inschrijvingen">
+          <Key>
+            <PropertyRef Name="inschrijving_id" />
+          </Key>
+          <Property Name="inschrijving_id" Type="int" Nullable="false" />
+          <Property Name="persoon_id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="evenement_id" Type="int" Nullable="false" />
+          <Property Name="aantal_personen" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proj_Vragen">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="naam" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="voornaam" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="adres" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="gemeente" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
+          <Property Name="content" Type="nvarchar(max)" />
+          <Property Name="date" Type="date" />
+        </EntityType>
+        <Association Name="FK_Evenement_Loc_Gemeente_code">
+          <End Role="Proj_gemeenten" Type="Self.Proj_gemeenten" Multiplicity="1" />
+          <End Role="Proj_evenementen" Type="Self.Proj_evenementen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proj_gemeenten">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Proj_evenementen">
+              <PropertyRef Name="locatie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_proj_inschrijvingen_Proj_evenementen">
+          <End Role="Proj_evenementen" Type="Self.Proj_evenementen" Multiplicity="1" />
+          <End Role="proj_inschrijvingen" Type="Self.proj_inschrijvingen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proj_evenementen">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="proj_inschrijvingen">
+              <PropertyRef Name="evenement_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="databaseEntitiesStoreContainer">
+          <EntitySet Name="Proj_evenementen" EntityType="Self.Proj_evenementen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proj_gemeenten" EntityType="Self.Proj_gemeenten" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="proj_inschrijvingen" EntityType="Self.proj_inschrijvingen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proj_Vragen" EntityType="Self.Proj_Vragen" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Evenement_Loc_Gemeente_code" Association="Self.FK_Evenement_Loc_Gemeente_code">
+            <End Role="Proj_gemeenten" EntitySet="Proj_gemeenten" />
+            <End Role="Proj_evenementen" EntitySet="Proj_evenementen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_proj_inschrijvingen_Proj_evenementen" Association="Self.FK_proj_inschrijvingen_Proj_evenementen">
+            <End Role="Proj_evenementen" EntitySet="Proj_evenementen" />
+            <End Role="proj_inschrijvingen" EntitySet="proj_inschrijvingen" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="databaseEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="evenement">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="naam" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="beschrijving" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="locatie" Type="Int32" Nullable="false" />
+          <Property Name="datum" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="gemeente" Relationship="Self.FK_Evenement_Loc_Gemeente_code" FromRole="Proj_evenementen" ToRole="Proj_gemeenten" />
+          <Property Name="Max_inschrijvingen" Type="Int32" Nullable="false" />
+          <Property Name="Huidige_inschrijvingen" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="inschrijvingen" Relationship="databaseEntities.FK_proj_inschrijvingen_Proj_evenementen" FromRole="evenement" ToRole="proj_inschrijvingen" />
+        </EntityType>
+        <EntityType Name="Gemeente">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="naam" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="postcode" Type="Int32" />
+          <NavigationProperty Name="evenementen" Relationship="Self.FK_Evenement_Loc_Gemeente_code" FromRole="Proj_gemeenten" ToRole="Proj_evenementen" />
+        </EntityType>
+        <EntityType Name="Vragen">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="naam" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="voornaam" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="adres" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="gemeente" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+        </EntityType>
+        <Association Name="FK_Evenement_Loc_Gemeente_code">
+          <End Role="Proj_gemeenten" Type="databaseEntities.Gemeente" Multiplicity="1" />
+          <End Role="Proj_evenementen" Type="databaseEntities.evenement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proj_gemeenten">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Proj_evenementen">
+              <PropertyRef Name="locatie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="INFO_c1035462Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Proj_evenementen" EntityType="databaseEntities.evenement" />
+          <EntitySet Name="Proj_gemeenten" EntityType="databaseEntities.Gemeente" />
+          <EntitySet Name="Proj_Vragen" EntityType="databaseEntities.Vragen" />
+          <AssociationSet Name="FK_Evenement_Loc_Gemeente_code" Association="Self.FK_Evenement_Loc_Gemeente_code">
+            <End Role="Proj_gemeenten" EntitySet="Proj_gemeenten" />
+            <End Role="Proj_evenementen" EntitySet="Proj_evenementen" />
+          </AssociationSet>
+          <EntitySet Name="proj_inschrijvingen" EntityType="databaseEntities.inschrijving" />
+          <AssociationSet Name="FK_proj_inschrijvingen_Proj_evenementen" Association="databaseEntities.FK_proj_inschrijvingen_Proj_evenementen">
+            <End Role="evenement" EntitySet="Proj_evenementen" />
+            <End Role="proj_inschrijvingen" EntitySet="proj_inschrijvingen" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="inschrijving">
+          <Key>
+            <PropertyRef Name="inschrijving_id" />
+          </Key>
+          <Property Name="inschrijving_id" Type="Int32" Nullable="false" />
+          <Property Name="persoon_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="evenement_id" Type="Int32" Nullable="false" />
+          <Property Name="aantal_personen" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="evenement" Relationship="databaseEntities.FK_proj_inschrijvingen_Proj_evenementen" FromRole="proj_inschrijvingen" ToRole="evenement" />
+        </EntityType>
+        <Association Name="FK_proj_inschrijvingen_Proj_evenementen">
+          <End Type="databaseEntities.evenement" Role="evenement" Multiplicity="1" />
+          <End Type="databaseEntities.inschrijving" Role="proj_inschrijvingen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="evenement">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="proj_inschrijvingen">
+              <PropertyRef Name="evenement_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="databaseEntitiesStoreContainer" CdmEntityContainer="INFO_c1035462Entities">
+          <EntitySetMapping Name="Proj_evenementen">
+            <EntityTypeMapping TypeName="databaseEntities.evenement">
+              <MappingFragment StoreEntitySet="Proj_evenementen">
+                <ScalarProperty Name="Huidige_inschrijvingen" ColumnName="Huidige_inschrijvingen" />
+                <ScalarProperty Name="Max_inschrijvingen" ColumnName="Max_inschrijvingen" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="naam" ColumnName="naam" />
+                <ScalarProperty Name="beschrijving" ColumnName="beschrijving" />
+                <ScalarProperty Name="locatie" ColumnName="locatie" />
+                <ScalarProperty Name="datum" ColumnName="datum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proj_gemeenten">
+            <EntityTypeMapping TypeName="databaseEntities.Gemeente">
+              <MappingFragment StoreEntitySet="Proj_gemeenten">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="naam" ColumnName="naam" />
+                <ScalarProperty Name="postcode" ColumnName="postcode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proj_Vragen">
+            <EntityTypeMapping TypeName="databaseEntities.Vragen">
+              <MappingFragment StoreEntitySet="Proj_Vragen">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="naam" ColumnName="naam" />
+                <ScalarProperty Name="voornaam" ColumnName="voornaam" />
+                <ScalarProperty Name="adres" ColumnName="adres" />
+                <ScalarProperty Name="gemeente" ColumnName="gemeente" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="proj_inschrijvingen">
+            <EntityTypeMapping TypeName="databaseEntities.inschrijving">
+              <MappingFragment StoreEntitySet="proj_inschrijvingen">
+                <ScalarProperty Name="aantal_personen" ColumnName="aantal_personen" />
+                <ScalarProperty Name="evenement_id" ColumnName="evenement_id" />
+                <ScalarProperty Name="persoon_id" ColumnName="persoon_id" />
+                <ScalarProperty Name="inschrijving_id" ColumnName="inschrijving_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

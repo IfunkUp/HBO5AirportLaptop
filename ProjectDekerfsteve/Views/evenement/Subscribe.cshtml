@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNet.Identity
+@using ProjectDekerfsteve.Models
+@model ProjectDekerfsteve.inschrijving
+
+@{
+    ViewBag.Title = "Subscribe";
+}
+
+<h2>Subscribe</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>inschrijving</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("gebruikersNaam", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("gebruikersNaam",User.Identity.Name);
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.Label("AantalPersonen", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <p>
+                    <input name="aantal" type="text" id="sliderValue" readonly style="border:0; font-weight:bold;" />
+                    <div id="slider"></div>
+                   
+                </p>
+            </div>
+        </div>
+        
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/steves")
+}

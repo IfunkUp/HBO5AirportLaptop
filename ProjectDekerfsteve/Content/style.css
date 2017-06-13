@@ -1,0 +1,44 @@
+﻿.navbar-inverse {
+    
+    background: url('../pics/vlag.jpg');
+    font-weight: bold;
+    border-color: #0d7cee;
+    border: thick;
+}
+
+
+body {
+    background-color: black;
+    background: url('../pics/MARGAY-RENT-ME.jpg');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top, center;
+    margin: 0 auto !important; 
+}
+
+
+.container {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    color: #a52a2a;
+}
+
+ul li:hover {
+        background: #a52a2a;
+    }
+
+
+ul li ul li {
+        background: #a52a2a;
+   
+    }
+    ul li ul li:hover {
+        background: #a52a2a;
+    }

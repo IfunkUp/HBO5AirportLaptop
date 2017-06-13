@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="898c5bf1ffc4473f8b43ceb0cba6bb66" Name="Diagram1">
+        <EntityTypeShape EntityType="databaseEntities.evenement" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="databaseEntities.Gemeente" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="databaseEntities.Vragen" Width="1.5" PointX="6" PointY="0.625" IsExpanded="true" />
+        <AssociationConnector Association="databaseEntities.FK_Evenement_Loc_Gemeente_code" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="databaseEntities.inschrijving" Width="1.5" PointX="5.25" PointY="4.25" />
+        <AssociationConnector Association="databaseEntities.FK_proj_inschrijvingen_Proj_evenementen" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

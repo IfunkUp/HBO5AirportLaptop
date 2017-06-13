@@ -1,0 +1,48 @@
+﻿@using System.Diagnostics.Eventing.Reader
+@using System.Globalization
+@using System.Runtime.Serialization
+@using System.Web.UI.WebControls
+@model List<IGrouping<int, evenement>>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th>
+                @Html.DisplayName(DateTimeFormatInfo.CurrentInfo.GetMonthName(item.Key))
+            </th>
+
+            @foreach (var evenement in item)
+            {
+                if (evenement.Huidige_inschrijvingen < evenement.Max_inschrijvingen)
+                {
+                    <td>
+                        @Html.ActionLink(evenement.naam, "Details", "evenement", new {evenement.id}, null)
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.Label(evenement.naam)
+                    </td>
+                 
+                }
+
+
+            }
+        </tr>
+    }
+    
+
+</table>
+
+
